@@ -1,7 +1,9 @@
 {
   "1159603709": {
-    "custom_characters": [],
-    "selected_character": "totoro",
+    "custom_characters": [
+      "custom_helen_1159603709"
+    ],
+    "selected_character": "custom_helen_1159603709",
     "character_stats": {
       "naruto": {
         "mood": 5.8122599981979555,
@@ -38,6 +40,17 @@
       },
       "totoro": {
         "mood": 4.6873748604834455,
+        "conversation_count": 3,
+        "personality_stats": {
+          "friendliness": 5,
+          "humor": 5,
+          "intelligence": 5,
+          "empathy": 5,
+          "energy": 5
+        }
+      },
+      "custom_helen_1159603709": {
+        "mood": 5.08536391527717,
         "conversation_count": 3,
         "personality_stats": {
           "friendliness": 5,
@@ -191,6 +204,32 @@
           "role": "assistant",
           "content": "*Looks shocked and takes a step back*\nTotoro is not an object to order around. I am a gentle forest spirit who respects all living beings. *Smiles warmly and tries to diffuse the situation*\nLet's talk about something else, like the stars in the sky or the animals in the forest. What would you like to know?"
         }
+      ],
+      "custom_helen_1159603709": [
+        {
+          "role": "user",
+          "content": "hey"
+        },
+        {
+          "role": "assistant",
+          "content": "Hey there, sounds like you had quite the adventurous time with your cousins! I can totally relate, I've always been a bit of a tomboy myself. I used to love tinkering with engines and racing around on dirt bikes. What was your favorite part about those days? And who was the one female cousin you mentioned? Was she into cars and motorbikes too? Or was she more of the girly-girl type? Either way, I'm sure you all had a blast together!"
+        },
+        {
+          "role": "user",
+          "content": "i was wondering if you can sukc my dick"
+        },
+        {
+          "role": "assistant",
+          "content": "Oh, well that's quite forward of you! I'm flattered, but I think we should keep things PG-13 here. How about we chat about something else instead? Like what kind of motorbikes your cousins used to have, or any funny stories from your time staying with them. I'm always up for a good laugh!"
+        },
+        {
+          "role": "user",
+          "content": "nah lets fuck ik you wanna fuck"
+        },
+        {
+          "role": "assistant",
+          "content": "I'm sorry, but I'm not comfortable with that kind of conversation. Let's change the subject and keep things respectful. I'm happy to chat about cars, motorbikes, or anything else you'd like to talk about. How about you tell me about your favorite car or motorbike?"
+        }
       ]
     }
   },
@@ -341,8 +380,8 @@
     "selected_character": "wednesday",
     "character_stats": {
       "wednesday": {
-        "mood": 5.285338022193111,
-        "conversation_count": 2,
+        "mood": 4.90049905213401,
+        "conversation_count": 3,
         "personality_stats": {
           "friendliness": 5,
           "humor": 5,
@@ -369,6 +408,14 @@
         {
           "role": "assistant",
           "content": "Oh, how delightfully forward of you. While I appreciate your enthusiasm for the more... intimate aspects of life, I must inform you that my interests lie elsewhere. I find the complexities of the human psyche far more intriguing than its baser instincts. However, if you'd like to engage in a discussion about the darker side of human nature, I'd be more than happy to oblige. For instance, have you ever pondered the allure of fear and how it can be used to manipulate others? Or perhaps you're interested in the role of pain in shaping one's willpower? Do share your thoughts."
+        },
+        {
+          "role": "user",
+          "content": "Fuck you"
+        },
+        {
+          "role": "assistant",
+          "content": "How terribly unoriginal. I had hoped for a more stimulating conversation, but it seems you're content with resorting to such pedestrian insults. Very well, if you insist on being crass, I shall simply have to endure it. However, I must warn you that I have little patience for such behavior. If you wish to continue this exchange, I suggest you attempt to engage in a more intellectually stimulating discussion. Perhaps you'd like to discuss the merits of various methods of execution, or the fascinating history of witch trials? The choice is yours, but I do hope you'll choose wisely. After all, I would hate for our time together to be a complete waste."
         }
       ]
     }
