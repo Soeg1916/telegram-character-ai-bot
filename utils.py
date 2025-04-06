@@ -470,3 +470,40 @@ def _create_stat_bar(value: float, max_value: int) -> str:
     filled = "█" * value_int
     empty = "░" * (max_value - value_int)
     return filled + empty
+
+async def toggle_nsfw(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Toggle NSFW mode for the current character"""
+    character_manager = CharacterManager()
+    
+    # Get the user's selected character
+    user_id = update.effective_user.id
+    selected_character_id = context.user_data.get("selected_character") or character_manager.get_user_selected_character(user_id)
+    
+    if not selected_character_id:
+        await update.message.reply_text(
+            "You haven't selected a character yet! Use /characters to choose one."
+        )
+        return
+    
+    # Get the character
+    character = character_manager.get_character(selected_character_id)
+    if not character:
+        await update.message.reply_text(
+            "The selected character no longer exists. Please choose another one with /characters."
+        )
+        return
+    
+    # Toggle NSFW mode
+    new_nsfw_status = character_manager.toggle_nsfw_mode(selected_character_id)
+    
+    # Get updated character
+    character = character_manager.get_character(selected_character_id)
+    
+    # Reset conversation after toggling NSFW mode to avoid confusion
+    character_manager.reset_conversation(user_id, selected_character_id)
+    
+    await update.message.reply_text(
+        f"NSFW mode for {character['name']} has been {'enabled ✅🔞' if new_nsfw_status else 'disabled ❌'}\n\n"
+        "The conversation has been reset to apply this change.\n"
+        "You can start chatting again!"
+    )

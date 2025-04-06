@@ -11,7 +11,7 @@ from utils import (
     handle_error, list_characters, show_current_character, 
     reset_conversation, show_character_stats, create_character_start,
     process_character_creation, delete_character, cancel_creation,
-    SELECTING_NAME, ENTERING_DESCRIPTION, SELECTING_TRAITS
+    toggle_nsfw, SELECTING_NAME, ENTERING_DESCRIPTION, SELECTING_TRAITS
 )
 
 logger = logging.getLogger(__name__)
@@ -43,6 +43,7 @@ def setup_bot(token: str) -> Application:
     application.add_handler(CommandHandler("reset", reset_conversation))
     application.add_handler(CommandHandler("stats", show_character_stats))
     application.add_handler(CommandHandler("delete", delete_character))
+    application.add_handler(CommandHandler("nsfw", toggle_nsfw))
     
     # Add conversation handler for character creation
     application.add_handler(creation_conv_handler)
@@ -86,6 +87,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         "/delete - Delete a custom character\n"
         "/reset - Reset conversation with current character\n"
         "/stats - Show character's mood and personality stats\n"
+        "/nsfw - Toggle NSFW mode for current character\n"
         "/help - Show this help message\n\n"
         "*How to use:*\n"
         "1. Select a character using /characters\n"
@@ -94,7 +96,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         "4. Their mood might change based on your conversation.\n\n"
         "*Custom Characters:*\n"
         "Create your own characters with /create\n"
-        "You can set their name, background, and personality traits."
+        "You can set their name, background, and personality traits.\n\n"
+        "*NSFW Mode:*\n"
+        "Use /nsfw to toggle NSFW mode for your current character.\n"
+        "NSFW mode allows more mature and adult-themed conversations."
     )
     
     keyboard = [
@@ -132,15 +137,19 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         keyboard.append([InlineKeyboardButton("--- Preset Characters ---", callback_data="preset_header")])
         for char_id, char in all_characters.items():
             if not char_id.startswith("custom_"):
-                keyboard.append([InlineKeyboardButton(char["name"], callback_data=f"select_character:{char_id}")])
+                nsfw_mode = char.get("nsfw", False)
+                button_text = f"{char['name']} {'🔞' if nsfw_mode else ''}"
+                keyboard.append([InlineKeyboardButton(button_text, callback_data=f"select_character:{char_id}")])
         
         # Add custom characters
         if user_custom_characters:
             keyboard.append([InlineKeyboardButton("--- Your Custom Characters ---", callback_data="custom_header")])
             for char_id in user_custom_characters:
                 if char_id in all_characters:
+                    nsfw_mode = all_characters[char_id].get("nsfw", False)
+                    button_text = f"{all_characters[char_id]['name']} {'🔞' if nsfw_mode else ''}"
                     keyboard.append([InlineKeyboardButton(
-                        all_characters[char_id]["name"], 
+                        button_text, 
                         callback_data=f"select_character:{char_id}"
                     )])
         
@@ -178,6 +187,7 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             "/delete - Delete a custom character\n"
             "/reset - Reset conversation with current character\n"
             "/stats - Show character's mood and personality stats\n"
+            "/nsfw - Toggle NSFW mode for current character\n"
             "/help - Show this help message\n\n"
             "*How to use:*\n"
             "1. Select a character using /characters\n"
@@ -186,7 +196,10 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             "4. Their mood might change based on your conversation.\n\n"
             "*Custom Characters:*\n"
             "Create your own characters with /create\n"
-            "You can set their name, background, and personality traits."
+            "You can set their name, background, and personality traits.\n\n"
+            "*NSFW Mode:*\n"
+            "Use /nsfw to toggle NSFW mode for your current character.\n"
+            "NSFW mode allows more mature and adult-themed conversations."
         )
         
         keyboard = [

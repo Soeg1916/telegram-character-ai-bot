@@ -253,3 +253,31 @@ class CharacterManager:
                 self.user_data[str(user_id)]["conversation_history"][character_id][-30:]
         
         self._save_user_data()
+        
+    def toggle_nsfw_mode(self, character_id: str) -> bool:
+        """
+        Toggle NSFW mode for a character
+        Returns True if NSFW is enabled after toggle, False if disabled
+        """
+        all_characters = self.get_all_characters()
+        
+        if character_id in all_characters:
+            character = all_characters[character_id]
+            current_nsfw_status = character.get("nsfw", False)
+            
+            # Toggle the status
+            new_nsfw_status = not current_nsfw_status
+            
+            # Update in the appropriate dictionary based on character type
+            if character_id.startswith("custom_"):
+                if character_id in self.custom_characters:
+                    self.custom_characters[character_id]["nsfw"] = new_nsfw_status
+                    self._save_custom_characters()
+            else:
+                # For preset characters, we need to modify them in-memory
+                # since PRESET_CHARACTERS is a constant
+                self.preset_characters[character_id]["nsfw"] = new_nsfw_status
+            
+            return new_nsfw_status
+            
+        return False
