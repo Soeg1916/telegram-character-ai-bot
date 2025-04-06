@@ -303,11 +303,14 @@ async def process_character_creation(update: Update, context: ContextTypes.DEFAU
             character_manager.set_user_selected_character(update.effective_user.id, character_id)
             context.user_data["selected_character"] = character_id
             
+            # Store the character name before deleting the data
+            character_name = context.user_data["character_creation"]["name"]
+            
             # Clear the character creation data
             del context.user_data["character_creation"]
             
             await update.message.reply_text(
-                f"🎉 Character *{context.user_data['character_creation']['name']}* created successfully!\n\n"
+                f"🎉 Character *{character_name}* created successfully!\n\n"
                 "You are now chatting with your new character. Say hello!",
                 parse_mode="Markdown"
             )
@@ -391,8 +394,10 @@ def _get_mood_description(mood_value: int) -> str:
     else:
         return "Angry 😡"
 
-def _create_stat_bar(value: int, max_value: int) -> str:
+def _create_stat_bar(value: float, max_value: int) -> str:
     """Create a visual bar representation of a stat"""
-    filled = "█" * value
-    empty = "░" * (max_value - value)
+    # Convert float to int to avoid multiplication errors
+    value_int = int(round(value))
+    filled = "█" * value_int
+    empty = "░" * (max_value - value_int)
     return filled + empty

@@ -246,9 +246,9 @@ class CharacterManager:
             "content": content
         })
         
-        # Limit the conversation history to the last 20 messages to avoid context length issues
-        if len(self.user_data[str(user_id)]["conversation_history"][character_id]) > 20:
+        # Limit the conversation history to the last 30 messages for better memory while avoiding context length issues
+        if len(self.user_data[str(user_id)]["conversation_history"][character_id]) > 30:
             self.user_data[str(user_id)]["conversation_history"][character_id] = \
-                self.user_data[str(user_id)]["conversation_history"][character_id][-20:]
+                self.user_data[str(user_id)]["conversation_history"][character_id][-30:]
         
         self._save_user_data()

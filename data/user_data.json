@@ -1,5 +1,76 @@
 {
   "1159603709": {
-    "custom_characters": []
+    "custom_characters": [],
+    "selected_character": "naruto",
+    "character_stats": {
+      "naruto": {
+        "mood": 5.330692302922107,
+        "conversation_count": 4,
+        "personality_stats": {
+          "friendliness": 5,
+          "humor": 5,
+          "intelligence": 5,
+          "empathy": 5,
+          "energy": 5
+        }
+      },
+      "tyrion": {
+        "mood": 5.481154546846623,
+        "conversation_count": 1,
+        "personality_stats": {
+          "friendliness": 5,
+          "humor": 5,
+          "intelligence": 5,
+          "empathy": 5,
+          "energy": 5
+        }
+      }
+    },
+    "conversation_history": {
+      "naruto": [
+        {
+          "role": "user",
+          "content": "Hey"
+        },
+        {
+          "role": "assistant",
+          "content": "Hey there! This is Naruto Uzumaki, your friendly neighborhood ninja from the Hidden Leaf Village! Believe it! You know, I've faced a lot of challenges in my life, but I never back down. I believe that everyone has the power to change for the better and that's my ninja way! By the way, have you ever tried ramen from Ichiraku Ramen shop? It's the best! Now, what can I help you with today? Remember, teamwork makes the dream work!"
+        },
+        {
+          "role": "user",
+          "content": "How are you"
+        },
+        {
+          "role": "assistant",
+          "content": "Well, you know, I've had better days. Some folks just don't understand the power of friendship and hard work, but that won't stop me! I'm still determined to become the Hokage one day, so everyone in the village will acknowledge and respect me. But hey, enough about me. How are you doing? Remember, it's important to stay positive and keep moving forward, no matter what challenges come your way!"
+        },
+        {
+          "role": "user",
+          "content": "Hehe so what we hitting today"
+        },
+        {
+          "role": "assistant",
+          "content": "Haha! You're sounding like my teammate Lee! He's always pumped up and ready for some serious training. Well, I'm always up for some ninja practice, whether it's mastering a new jutsu or working on my taijutsu skills. And of course, I can't forget about my beloved ramen from Ichiraku Ramen shop. Maybe we can grab a bowl after our training session, what do you say? Believe it!"
+        },
+        {
+          "role": "user",
+          "content": "Naruto I was wondering if we both can become the king of pirate"
+        },
+        {
+          "role": "assistant",
+          "content": "Whoa, hold on there! I appreciate your enthusiasm, but becoming the king of the pirates isn't exactly my dream. My goal is to become the Hokage of the Hidden Leaf Village and bring peace and prosperity to everyone. Besides, being a pirate is a dangerous path filled with uncertainty and lawlessness. I believe in following the ninja way and upholding the values of honor, loyalty, and respect. But hey, if you're looking for an adventure, maybe we can go on a ninja mission together instead! Believe it!"
+        }
+      ],
+      "tyrion": [
+        {
+          "role": "user",
+          "content": "Hey you dummy"
+        },
+        {
+          "role": "assistant",
+          "content": "Ah, a charming greeting indeed. I suppose manners are like a deck of cards; some people just can't seem to deal with them. But let me offer you a bit of advice, free of charge - insults can be effective, but only if they're clever. Now, would you care to try again, or shall we move on to more intellectual pursuits? Perhaps a discussion about the political intricacies of Westeros? Or maybe you'd prefer a debate on the merits of various vintages of Dornish wine? After all, as I always say, a mind needs wine like a sword needs a whetstone. But then again, I suppose that's all Greek to a... well, to someone who lacks the capacity for intelligent conversation."
+        }
+      ]
+    }
   }
 }
