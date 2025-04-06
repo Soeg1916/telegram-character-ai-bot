@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, Any, Optional
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, ConversationHandler
 
 from character_manager import CharacterManager
 
@@ -41,15 +41,19 @@ async def list_characters(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     keyboard.append([InlineKeyboardButton("--- Preset Characters ---", callback_data="preset_header")])
     for char_id, char in all_characters.items():
         if not char_id.startswith("custom_"):
-            keyboard.append([InlineKeyboardButton(char["name"], callback_data=f"select_character:{char_id}")])
+            nsfw_mode = char.get("nsfw", False)
+            button_text = f"{char['name']} {'🔞' if nsfw_mode else ''}"
+            keyboard.append([InlineKeyboardButton(button_text, callback_data=f"select_character:{char_id}")])
     
     # Add custom characters
     if user_custom_characters:
         keyboard.append([InlineKeyboardButton("--- Your Custom Characters ---", callback_data="custom_header")])
         for char_id in user_custom_characters:
             if char_id in all_characters:
+                nsfw_mode = all_characters[char_id].get("nsfw", False)
+                button_text = f"{all_characters[char_id]['name']} {'🔞' if nsfw_mode else ''}"
                 keyboard.append([InlineKeyboardButton(
-                    all_characters[char_id]["name"], 
+                    button_text, 
                     callback_data=f"select_character:{char_id}"
                 )])
     
@@ -97,6 +101,10 @@ async def show_current_character(update: Update, context: ContextTypes.DEFAULT_T
     # Create message
     message = f"You are currently chatting with *{character['name']}*\n\n"
     message += f"{character['description']}\n\n"
+    
+    # Show NSFW status
+    nsfw_mode = character.get("nsfw", False)
+    message += f"NSFW mode: {'Enabled' if nsfw_mode else 'Disabled'}\n\n"
     
     if character_stats:
         mood_description = _get_mood_description(character_stats["mood"])
@@ -181,6 +189,10 @@ async def show_character_stats(update: Update, context: ContextTypes.DEFAULT_TYP
     # Create message
     message = f"📊 *{character['name']} Stats* 📊\n\n"
     
+    # Show NSFW status
+    nsfw_mode = character.get("nsfw", False)
+    message += f"*NSFW mode:* {'Enabled' if nsfw_mode else 'Disabled'}\n\n"
+    
     # Add mood
     mood_description = _get_mood_description(character_stats["mood"])
     mood_bar = _create_stat_bar(character_stats["mood"], 10)
@@ -224,6 +236,16 @@ async def process_character_creation(update: Update, context: ContextTypes.DEFAU
     """Process character creation steps"""
     user_input = update.message.text
     
+    # Check for cancellation command
+    if user_input.lower() == "/cancel":
+        if "character_creation" in context.user_data:
+            del context.user_data["character_creation"]
+        
+        await update.message.reply_text(
+            "Character creation cancelled. Use /characters to choose from existing characters."
+        )
+        return ConversationHandler.END
+    
     if "character_creation" not in context.user_data:
         context.user_data["character_creation"] = {"step": "name"}
     
@@ -236,7 +258,8 @@ async def process_character_creation(update: Update, context: ContextTypes.DEFAU
         
         await update.message.reply_text(
             f"Great! Your character will be named *{user_input}*.\n\n"
-            "Now, write a brief description of your character. Include their personality, background, and any important traits:",
+            "Now, write a brief description of your character. Include their personality, background, and any important traits:\n\n"
+            "Send me the description or use /cancel to stop the creation process.",
             parse_mode="Markdown"
         )
         return ENTERING_DESCRIPTION
@@ -244,30 +267,68 @@ async def process_character_creation(update: Update, context: ContextTypes.DEFAU
     elif current_step == "description":
         # Save the description
         context.user_data["character_creation"]["description"] = user_input
+        context.user_data["character_creation"]["step"] = "nsfw"
+        
+        # Add NSFW option
+        await update.message.reply_text(
+            "Excellent description! Would you like this character to allow NSFW (Not Safe For Work) conversations?\n\n"
+            "Reply with 'yes' or 'no'.\n\n"
+            "Note: NSFW mode allows more mature and adult-themed conversations with this character."
+        )
+        return SELECTING_TRAITS
+        
+    elif current_step == "nsfw":
+        # Process NSFW choice
+        is_nsfw = user_input.lower() in ["yes", "y", "true", "1"]
+        context.user_data["character_creation"]["nsfw"] = is_nsfw
         context.user_data["character_creation"]["step"] = "traits"
         
         await update.message.reply_text(
-            "Excellent description! Now, let's set some personality traits for your character.\n\n"
+            f"NSFW mode: {'Enabled' if is_nsfw else 'Disabled'}\n\n"
+            "Now, let's set some personality traits for your character.\n\n"
             "Rate each trait on a scale from 1-10, separated by commas:\n"
             "friendliness, humor, intelligence, empathy, energy\n\n"
-            "For example: `7, 5, 9, 6, 8`"
+            "For example: `7, 5, 9, 6, 8`\n\n"
+            "Send me the traits or use /cancel to stop the creation process."
         )
         return SELECTING_TRAITS
         
     elif current_step == "traits":
+        # Check if we're still on the NSFW step and user just sent this input
+        if not user_input.replace(" ", "").replace(",", "").isdigit() and "," not in user_input:
+            is_nsfw = user_input.lower() in ["yes", "y", "true", "1"]
+            context.user_data["character_creation"]["nsfw"] = is_nsfw
+            
+            await update.message.reply_text(
+                f"NSFW mode: {'Enabled' if is_nsfw else 'Disabled'}\n\n"
+                "Now, let's set some personality traits for your character.\n\n"
+                "Rate each trait on a scale from 1-10, separated by commas:\n"
+                "friendliness, humor, intelligence, empathy, energy\n\n"
+                "For example: `7, 5, 9, 6, 8`\n\n"
+                "Send me the traits or use /cancel to stop the creation process."
+            )
+            return SELECTING_TRAITS
+        
         # Parse and save the traits
         try:
-            trait_values = [int(t.strip()) for t in user_input.split(",")]
+            # Split by comma and handle both space-separated and non-space-separated inputs
+            parts = user_input.replace(" ", "").split(",")
+            trait_values = [int(t.strip()) for t in parts if t.strip()]
+            
             if len(trait_values) != 5:
                 await update.message.reply_text(
-                    "Please provide exactly 5 numbers separated by commas. Try again:"
+                    "Please provide exactly 5 numbers separated by commas. Try again:\n\n"
+                    "For example: `7, 5, 9, 6, 8`\n\n"
+                    "Send me the traits or use /cancel to stop the creation process."
                 )
                 return SELECTING_TRAITS
             
             for val in trait_values:
                 if val < 1 or val > 10:
                     await update.message.reply_text(
-                        "All values must be between 1 and 10. Try again:"
+                        "All values must be between 1 and 10. Try again:\n\n"
+                        "For example: `7, 5, 9, 6, 8`\n\n"
+                        "Send me the traits or use /cancel to stop the creation process."
                     )
                     return SELECTING_TRAITS
             
@@ -284,6 +345,9 @@ async def process_character_creation(update: Update, context: ContextTypes.DEFAU
             # Create the character
             character_manager = CharacterManager()
             
+            # Get NSFW setting (default to False if not specified)
+            is_nsfw = context.user_data["character_creation"].get("nsfw", False)
+            
             # Create a system prompt based on the character information
             system_prompt = (
                 f"You are {context.user_data['character_creation']['name']}. "
@@ -291,12 +355,14 @@ async def process_character_creation(update: Update, context: ContextTypes.DEFAU
                 "Respond as this character would, maintaining their personality and speech patterns."
             )
             
+            # Add NSFW information to the character
             character_id = character_manager.create_custom_character(
                 update.effective_user.id,
                 context.user_data["character_creation"]["name"],
                 context.user_data["character_creation"]["description"],
                 traits,
-                system_prompt
+                system_prompt,
+                is_nsfw
             )
             
             # Select the new character for the user
@@ -311,6 +377,7 @@ async def process_character_creation(update: Update, context: ContextTypes.DEFAU
             
             await update.message.reply_text(
                 f"🎉 Character *{character_name}* created successfully!\n\n"
+                f"NSFW mode: {'Enabled' if is_nsfw else 'Disabled'}\n\n"
                 "You are now chatting with your new character. Say hello!",
                 parse_mode="Markdown"
             )
@@ -320,7 +387,9 @@ async def process_character_creation(update: Update, context: ContextTypes.DEFAU
             
         except ValueError:
             await update.message.reply_text(
-                "Please provide numbers only, separated by commas. Try again:"
+                "Please provide numbers only, separated by commas. Try again:\n\n"
+                "For example: `7, 5, 9, 6, 8`\n\n"
+                "Send me the traits or use /cancel to stop the creation process."
             )
             return SELECTING_TRAITS
     

@@ -113,7 +113,7 @@ class CharacterManager:
         self._save_user_data()
     
     def create_custom_character(self, user_id: int, name: str, description: str, 
-                                traits: Dict[str, int], system_prompt: str) -> str:
+                                traits: Dict[str, int], system_prompt: str, nsfw: bool = False) -> str:
         """Create a custom character and return its ID"""
         # Generate a unique ID for the character
         character_id = f"custom_{name.lower().replace(' ', '_')}_{user_id}"
@@ -124,7 +124,8 @@ class CharacterManager:
             "description": description,
             "traits": traits,
             "system_prompt": system_prompt,
-            "creator_id": user_id
+            "creator_id": user_id,
+            "nsfw": nsfw
         }
         
         # Add the character to custom characters

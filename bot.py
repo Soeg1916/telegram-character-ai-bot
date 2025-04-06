@@ -213,9 +213,13 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         character = character_manager.get_character(character_id)
         character_manager.set_user_selected_character(update.effective_user.id, character_id)
         
+        # Show NSFW status
+        nsfw_mode = character.get("nsfw", False)
+        
         await query.edit_message_text(
             f"You are now chatting with *{character['name']}*!\n\n"
             f"{character['description']}\n\n"
+            f"NSFW mode: {'Enabled' if nsfw_mode else 'Disabled'}\n\n"
             "Start chatting now! You can reset the conversation anytime with /reset",
             parse_mode="Markdown"
         )

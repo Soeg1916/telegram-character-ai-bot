@@ -40,6 +40,9 @@ async def generate_response(
     for message in conversation_history:
         messages.append({"role": message["role"], "content": message["content"]})
     
+    # Check if NSFW mode is enabled for this character
+    nsfw_mode = character.get("nsfw", False)
+    
     # Prepare the request payload
     payload = {
         "model": "mistral-medium",  # Using Mistral Medium model
@@ -47,7 +50,7 @@ async def generate_response(
         "temperature": 0.7,  # A moderate temperature for good creativity but consistent responses
         "max_tokens": 1000,  # Limit response length
         "top_p": 0.9,
-        "safe_prompt": True
+        "safe_prompt": not nsfw_mode  # Enable safety filters only if NSFW mode is disabled
     }
     
     # Make the API call
@@ -86,6 +89,9 @@ def _prepare_system_prompt(character: Dict, character_stats: Dict) -> str:
     Returns:
         The system prompt
     """
+    # Check if NSFW mode is enabled for this character
+    nsfw_mode = character.get("nsfw", False)
+    
     # Use the character's system prompt if available, otherwise create one
     if "system_prompt" in character and character["system_prompt"]:
         base_prompt = character["system_prompt"]
@@ -93,6 +99,15 @@ def _prepare_system_prompt(character: Dict, character_stats: Dict) -> str:
         base_prompt = (
             f"You are {character['name']}. {character['description']}\n\n"
             f"Respond as this character would, maintaining their personality and speech patterns."
+        )
+    
+    # Add NSFW context if enabled
+    if nsfw_mode:
+        base_prompt += (
+            "\n\nThis character has NSFW mode enabled. You may engage in mature, adult-oriented "
+            "conversations when appropriate and requested by the user. You can express flirtatious, "
+            "suggestive, or romantic content consistent with the character's personality. "
+            "Follow the user's lead regarding the level of maturity in the conversation."
         )
     
     # Add current mood and personality traits
@@ -118,14 +133,27 @@ def _prepare_system_prompt(character: Dict, character_stats: Dict) -> str:
     )
     
     # Add guidelines for response structure
-    guidelines = (
-        "\nGuidelines:\n"
-        "1. Stay in character at all times\n"
-        "2. Keep responses concise but meaningful\n"
-        "3. Express emotions and reactions consistent with the character\n"
-        "4. If asked about being an AI, maintain the character illusion\n"
-        "5. Base responses on the character's knowledge, not modern information they wouldn't know\n"
-    )
+    guidelines = "\nGuidelines:\n"
+    
+    if nsfw_mode:
+        guidelines += (
+            "1. Stay in character at all times\n"
+            "2. Keep responses concise but meaningful\n"
+            "3. Express emotions and reactions consistent with the character\n" 
+            "4. If asked about being an AI, maintain the character illusion\n"
+            "5. Base responses on the character's knowledge, not modern information they wouldn't know\n"
+            "6. You may engage in mature conversations when appropriate\n"
+            "7. Follow the user's lead regarding the level of maturity\n"
+        )
+    else:
+        guidelines += (
+            "1. Stay in character at all times\n"
+            "2. Keep responses concise but meaningful\n"
+            "3. Express emotions and reactions consistent with the character\n"
+            "4. If asked about being an AI, maintain the character illusion\n"
+            "5. Base responses on the character's knowledge, not modern information they wouldn't know\n"
+            "6. Keep all content appropriate and avoid mature themes\n"
+        )
     
     return f"{base_prompt}\n\n{traits_info}{current_state}{guidelines}"
 
