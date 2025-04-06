@@ -10,6 +10,7 @@ dependencies = [
     "flask-sqlalchemy>=3.1.1",
     "gunicorn>=23.0.0",
     "psycopg2-binary>=2.9.10",
+    "python-dotenv>=1.1.0",
     "python-telegram-bot==20.7",
     "telegram>=0.0.1",
 ]

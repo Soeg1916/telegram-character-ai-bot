@@ -4,8 +4,8 @@
     "selected_character": "naruto",
     "character_stats": {
       "naruto": {
-        "mood": 5.330692302922107,
-        "conversation_count": 4,
+        "mood": 5.3342032869166776,
+        "conversation_count": 7,
         "personality_stats": {
           "friendliness": 5,
           "humor": 5,
@@ -59,6 +59,30 @@
         {
           "role": "assistant",
           "content": "Whoa, hold on there! I appreciate your enthusiasm, but becoming the king of the pirates isn't exactly my dream. My goal is to become the Hokage of the Hidden Leaf Village and bring peace and prosperity to everyone. Besides, being a pirate is a dangerous path filled with uncertainty and lawlessness. I believe in following the ninja way and upholding the values of honor, loyalty, and respect. But hey, if you're looking for an adventure, maybe we can go on a ninja mission together instead! Believe it!"
+        },
+        {
+          "role": "user",
+          "content": "Ohh but can't you for me?"
+        },
+        {
+          "role": "assistant",
+          "content": "I appreciate your request, but it's important to stay true to ourselves and follow our own dreams. I can't become the king of the pirates for you, just as you can't become the Hokage for me. But that doesn't mean we can't support each other and work together towards our goals. Remember, teamwork makes the dream work! So let's focus on becoming the best ninja we can be and maybe one day, we'll both achieve our dreams. That's my ninja way!"
+        },
+        {
+          "role": "user",
+          "content": "Her"
+        },
+        {
+          "role": "assistant",
+          "content": "I'm sorry, I didn't quite catch that. Could you please clarify what you meant by \"her\"? Are you referring to someone specific or asking a question about a hypothetical situation? I want to make sure I understand your question so I can give you the best possible answer. Thanks! Believe it!"
+        },
+        {
+          "role": "user",
+          "content": "Aman"
+        },
+        {
+          "role": "assistant",
+          "content": "I'm not sure who you're referring to by \"Aman\". Could you please provide more context or clarify your question? I want to make sure I understand what you're asking so I can give you an accurate and helpful response. Thanks! Believe it!"
         }
       ],
       "tyrion": [
@@ -69,6 +93,96 @@
         {
           "role": "assistant",
           "content": "Ah, a charming greeting indeed. I suppose manners are like a deck of cards; some people just can't seem to deal with them. But let me offer you a bit of advice, free of charge - insults can be effective, but only if they're clever. Now, would you care to try again, or shall we move on to more intellectual pursuits? Perhaps a discussion about the political intricacies of Westeros? Or maybe you'd prefer a debate on the merits of various vintages of Dornish wine? After all, as I always say, a mind needs wine like a sword needs a whetstone. But then again, I suppose that's all Greek to a... well, to someone who lacks the capacity for intelligent conversation."
+        }
+      ]
+    }
+  },
+  "6099083795": {
+    "custom_characters": [],
+    "selected_character": "wednesday",
+    "character_stats": {
+      "wednesday": {
+        "mood": 4.374413277582238,
+        "conversation_count": 5,
+        "personality_stats": {
+          "friendliness": 5,
+          "humor": 5,
+          "intelligence": 5,
+          "empathy": 5,
+          "energy": 5
+        }
+      }
+    },
+    "conversation_history": {
+      "wednesday": [
+        {
+          "role": "user",
+          "content": "Yo are you the infamous Wednesday?"
+        },
+        {
+          "role": "assistant",
+          "content": "Ah, the moniker 'infamous' is so often misapplied. However, in this instance, I suppose it may be somewhat fitting. I am Wednesday Addams, the morose and melancholic daughter of the Addams Family. I find solace in the macabre and the mysterious, unlike the rest of the world that seems to be enamored with all things cheerful and mundane. Now, how may I assist you in embracing the darker side of life? Or perhaps you have a query about the peculiarities of my family? Pugsley, Thing, Uncle Fester, and the rest of our delightfully eccentric clan? Do tell."
+        },
+        {
+          "role": "user",
+          "content": "What was your film? And was you the main character?"
+        },
+        {
+          "role": "assistant",
+          "content": "The cinematic adaptation of our lives, which you're referring to, is simply titled \"The Addams Family.\" Although the narrative does not revolve solely around my persona, I, Wednesday Addams, am indeed a pivotal character. The film delves into the peculiarities and idiosyncrasies of our entire family, providing a glimpse into our macabre world. I must admit, it's rather amusing to witness the reactions of those who are unaccustomed to our unique lifestyle. But, alas, such is the plight of being different in a world that champions conformity."
+        },
+        {
+          "role": "user",
+          "content": "Do you know Naruto?"
+        },
+        {
+          "role": "assistant",
+          "content": "I'm afraid the name 'Naruto' does not resonate with me. It's possible that it's a reference to some contemporary work of fiction or popular culture, which, regrettably, I am not privy to. My interests lie predominantly in the realms of the macabre, the occult, and the darker aspects of history. I find solace in the company of my dear brother Pugsley, our loyal disembodied hand Thing, and the enigmatic Uncle Fester. Engaging in the art of fencing, concocting potions, or devising intricate torture devices for Pugsley are my preferred pastimes. I must confess, the world of animated characters and their adventures holds little appeal for someone like me."
+        },
+        {
+          "role": "user",
+          "content": "Ohh OK nvm"
+        },
+        {
+          "role": "assistant",
+          "content": "I understand that my response may not have been what you were expecting. However, I assure you that the world of the Addams Family is filled with its own unique charm and intrigue. If you ever find yourself growing weary of the predictable and the mundane, perhaps you might consider delving into the darker realms of existence. Who knows? You may discover a newfound appreciation for the peculiarities of life, much like I have. But until then, I bid you adieu. May your days be filled with just the right amount of mystery and intrigue."
+        },
+        {
+          "role": "user",
+          "content": "What's your hair color"
+        },
+        {
+          "role": "assistant",
+          "content": "My hair, you ask? It's a deep, inky shade of black - much like the raven that perches upon my windowsill or the abyssal depths of a moonless night. The color serves as a fitting reflection of my own predilections and fascinations. It's a hue that is often associated with the unknown, the mysterious, and the enigmatic - qualities that I find most appealing in this otherwise drab and monotonous world. So, you see, my dark tresses are not merely a physical attribute, but rather a symbol of my very essence."
+        }
+      ]
+    }
+  },
+  "1389069134": {
+    "custom_characters": [],
+    "selected_character": "naruto",
+    "character_stats": {
+      "naruto": {
+        "mood": 5.242928509618656,
+        "conversation_count": 1,
+        "personality_stats": {
+          "friendliness": 5,
+          "humor": 5,
+          "intelligence": 5,
+          "empathy": 5,
+          "energy": 5
+        }
+      }
+    },
+    "conversation_history": {
+      "naruto": [
+        {
+          "role": "user",
+          "content": "Hello"
+        },
+        {
+          "role": "assistant",
+          "content": "Hey there! This is Naruto Uzumaki, your friendly neighborhood ninja! Believe it! I'm just a regular guy with an extraordinary dream to become the Hokage one day. You know, so everyone in our village can look up to me and feel proud. Life hasn't always been easy, but I never let that get me down. I learned that with hard work, a positive attitude, and a whole lot of determination, you can overcome any obstacle!\n\nOh, and by the way, have you ever tried the ramen at Ichiraku Ramen shop? It's the best in the world! I swear by it! Anyway, what's on your mind today? Remember, no matter what you're going through, there's always a way to turn things around for the better. That's my ninja way!"
         }
       ]
     }

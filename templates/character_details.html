@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ character.name }} - Character Details{% endblock %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-md-8">
+        <h1>{{ character.name }}</h1>
+        <p class="lead">{{ character.description }}</p>
+        
+        <div class="mb-4">
+            <h3>Personality Profile</h3>
+            <div class="row">
+                {% for trait in ['intelligence', 'humor', 'empathy', 'friendliness', 'energy'] %}
+                {% if trait in character.traits %}
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <h6>{{ trait|capitalize }}</h6>
+                        <span>{{ character.traits[trait] }}/10</span>
+                    </div>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ character.traits[trait] * 10 }}%;" aria-valuenow="{{ character.traits[trait] }}" aria-valuemin="0" aria-valuemax="10"></div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <h3>Background</h3>
+            <p>{{ character.background|default('No background information available.') }}</p>
+        </div>
+        
+        <div class="mb-4">
+            <h3>Conversation Style</h3>
+            <p>{{ character.conversation_style|default('No conversation style information available.') }}</p>
+        </div>
+        
+        <a href="https://t.me/CharacterChatBot" target="_blank" class="btn btn-primary me-2">Chat on Telegram</a>
+        <a href="/characters" class="btn btn-secondary">Back to Characters</a>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Character Stats</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">This character's mood and behavior will change based on your interactions.</p>
+                
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <h6>Mood</h6>
+                        <span>Neutral</span>
+                    </div>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="10"></div>
+                    </div>
+                    <small class="text-muted">Start chatting to affect this character's mood</small>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <h6>Total Conversations</h6>
+                        <span>0</span>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <h6>Last Interaction</h6>
+                        <span>Never</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Stats are unique to each user</small>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Sample Phrases</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for phrase in character.sample_phrases|default(['Hello there!', 'How are you today?', 'Tell me more about yourself.']) %}
+                    <li class="list-group-item">{{ phrase }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

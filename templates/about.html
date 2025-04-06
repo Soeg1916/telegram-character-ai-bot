@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block title %}Character Chat Bot - About{% endblock %}
+
+{% block content %}
+<div class="mb-5">
+    <h1>About Character Chat Bot</h1>
+    <p class="lead">An AI-powered chatbot that lets you talk to your favorite fictional characters.</p>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-6">
+        <h3>Our Mission</h3>
+        <p>Character Chat Bot was created with a simple mission: to bring fictional characters to life through conversation. We believe that stories and characters have the power to inspire, entertain, and connect people across cultures and generations.</p>
+        
+        <p>By combining advanced AI technology with carefully crafted character personalities, we've created an experience that allows you to have meaningful conversations with characters from your favorite stories.</p>
+        
+        <h3>How It Works</h3>
+        <p>Our bot uses Mistral AI, a powerful language model, to generate character responses that are consistent with their established personalities, backgrounds, and speaking styles.</p>
+        
+        <p>Each character has a unique set of personality traits that influence how they respond to your messages. As you chat with a character, they'll remember your previous conversations and their mood will change based on your interactions.</p>
+    </div>
+    
+    <div class="col-md-6">
+        <h3>Features</h3>
+        <ul class="list-group mb-4">
+            <li class="list-group-item">Chat with preset characters from popular fiction</li>
+            <li class="list-group-item">Create your own custom characters</li>
+            <li class="list-group-item">Characters remember your conversations</li>
+            <li class="list-group-item">Dynamic mood system that evolves based on interactions</li>
+            <li class="list-group-item">Easy access through Telegram</li>
+        </ul>
+        
+        <h3>Technology</h3>
+        <p>Character Chat Bot is built using:</p>
+        <ul class="list-group">
+            <li class="list-group-item">Python Telegram Bot library</li>
+            <li class="list-group-item">Mistral AI for character response generation</li>
+            <li class="list-group-item">Flask for the web interface</li>
+            <li class="list-group-item">PostgreSQL for data persistence</li>
+        </ul>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-12">
+        <h3>Privacy & Data</h3>
+        <p>We care about your privacy. Here's what you should know about how we handle your data:</p>
+        <ul>
+            <li>We store your Telegram ID and conversation history to provide a seamless experience.</li>
+            <li>Your conversations are private and not shared with other users.</li>
+            <li>We don't use your conversations for any purpose other than improving your experience with the bot.</li>
+            <li>You can reset your conversation history at any time using the /reset command.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 text-center">
+        <h3>Start Chatting Today!</h3>
+        <p>Ready to start a conversation with your favorite character?</p>
+        <a href="https://t.me/CharacterChatBot" target="_blank" class="btn btn-primary btn-lg mt-2">Open in Telegram</a>
+    </div>
+</div>
+{% endblock %}
