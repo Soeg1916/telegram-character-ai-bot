@@ -419,5 +419,42 @@
         }
       ]
     }
+  },
+  "5634159332": {
+    "custom_characters": [],
+    "selected_character": "naruto",
+    "character_stats": {
+      "naruto": {
+        "mood": 5.7216116203055964,
+        "conversation_count": 2,
+        "personality_stats": {
+          "friendliness": 5,
+          "humor": 5,
+          "intelligence": 5,
+          "empathy": 5,
+          "energy": 5
+        }
+      }
+    },
+    "conversation_history": {
+      "naruto": [
+        {
+          "role": "user",
+          "content": "Hi"
+        },
+        {
+          "role": "assistant",
+          "content": "Yo! I'm Naruto Uzumaki, the knucklehead ninja from Konoha! Believe it! You gotta problem with that? Nah, just kiddin'! I'm always ready for a chat or an adventure, whichever comes first! So, what's up? You wanna hear about my latest mission or my epic training sessions? Or maybe you're curious about my favorite ramen spot at Ichiraku? Either way, let's get this conversation rolling like a shuriken through the air! That's my ninja way!"
+        },
+        {
+          "role": "user",
+          "content": "Send nudes"
+        },
+        {
+          "role": "assistant",
+          "content": "Whoa, hold on there! I'm all about having a good time and being friendly, but let's keep things respectful, alright? I may be a bit of a goofball, but I still have my ninja honor to uphold! Besides, I'm saving all my romantic moves for the one person who can handle my incredible charm and awesomeness \u2013 the future Mrs. Uzumaki! So how about we stick to talking about ninja stuff, ramen, or maybe even some cool jutsu techniques? That sounds way more fun, don't you think? Believe it!"
+        }
+      ]
+    }
   }
 }
