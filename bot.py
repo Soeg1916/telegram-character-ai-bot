@@ -115,11 +115,92 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     await query.answer()
     
     if query.data == "show_characters":
-        await list_characters(update, context)
+        # Create a new message instead of trying to update
+        character_manager = CharacterManager()
+        
+        # Get all characters
+        all_characters = character_manager.get_all_characters()
+        
+        # Get the user's custom characters
+        user_id = update.effective_user.id
+        user_custom_characters = character_manager.get_user_characters(user_id)
+        
+        # Create inline keyboard for character selection
+        keyboard = []
+        
+        # Add preset characters
+        keyboard.append([InlineKeyboardButton("--- Preset Characters ---", callback_data="preset_header")])
+        for char_id, char in all_characters.items():
+            if not char_id.startswith("custom_"):
+                keyboard.append([InlineKeyboardButton(char["name"], callback_data=f"select_character:{char_id}")])
+        
+        # Add custom characters
+        if user_custom_characters:
+            keyboard.append([InlineKeyboardButton("--- Your Custom Characters ---", callback_data="custom_header")])
+            for char_id in user_custom_characters:
+                if char_id in all_characters:
+                    keyboard.append([InlineKeyboardButton(
+                        all_characters[char_id]["name"], 
+                        callback_data=f"select_character:{char_id}"
+                    )])
+        
+        # Add button to create a new character
+        keyboard.append([InlineKeyboardButton("Create New Character", callback_data="create_character")])
+        
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Choose a character to chat with:",
+            reply_markup=reply_markup
+        )
     elif query.data == "create_character":
-        await create_character_start(update, context)
+        # Send a new message to start character creation
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Let's create a custom character! 🎭\n\n"
+            "First, what's the name of your character?\n"
+            "Send me the name or use /cancel to stop the creation process."
+        )
+        
+        # Initialize character creation state
+        context.user_data["character_creation"] = {"step": "name"}
+        
+        # Set conversation state
+        context.user_data["state"] = SELECTING_NAME
     elif query.data == "help":
-        await help_command(update, context)
+        help_text = (
+            "🤖 *Character Chat Bot Help* 🤖\n\n"
+            "*Available Commands:*\n"
+            "/characters - List all available characters\n"
+            "/character - Show your current character\n"
+            "/create - Create a custom character\n"
+            "/delete - Delete a custom character\n"
+            "/reset - Reset conversation with current character\n"
+            "/stats - Show character's mood and personality stats\n"
+            "/help - Show this help message\n\n"
+            "*How to use:*\n"
+            "1. Select a character using /characters\n"
+            "2. Start chatting with them!\n"
+            "3. The character will respond based on their personality.\n"
+            "4. Their mood might change based on your conversation.\n\n"
+            "*Custom Characters:*\n"
+            "Create your own characters with /create\n"
+            "You can set their name, background, and personality traits."
+        )
+        
+        keyboard = [
+            [InlineKeyboardButton("Choose a Character", callback_data="show_characters")],
+            [InlineKeyboardButton("Create Custom Character", callback_data="create_character")]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=help_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
     elif query.data.startswith("select_character:"):
         character_id = query.data.split(":")[1]
         # Set the selected character for the user
@@ -130,6 +211,7 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         # Get character details from character manager
         character_manager = CharacterManager()
         character = character_manager.get_character(character_id)
+        character_manager.set_user_selected_character(update.effective_user.id, character_id)
         
         await query.edit_message_text(
             f"You are now chatting with *{character['name']}*!\n\n"
